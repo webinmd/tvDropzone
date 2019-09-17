@@ -1,0 +1,7 @@
+--------------------
+
+Extra: tvDropzone -  Custom TV 
+
+--------------------
+# Version 1.0.0-beta
+ :: initial release
