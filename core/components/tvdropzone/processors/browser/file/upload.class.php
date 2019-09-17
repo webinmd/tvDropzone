@@ -4,11 +4,11 @@
  *
  * @param string $path The target directory
  *
- * @package mixedimage
+ * @package tvdropzone
  * @subpackage processors.browser.file
  */
 
-class mixedimageBrowserFileUploadProcessor extends modBrowserFileUploadProcessor 
+class tvdropzoneBrowserFileUploadProcessor extends modBrowserFileUploadProcessor 
 {
 
     public function initialize() 
@@ -251,4 +251,4 @@ class mixedimageBrowserFileUploadProcessor extends modBrowserFileUploadProcessor
         return str_replace(array_keys($bits), $bits, $str);
     }
 }
-return 'mixedimageBrowserFileUploadProcessor';
+return 'tvdropzoneBrowserFileUploadProcessor';
