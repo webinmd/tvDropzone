@@ -8,6 +8,7 @@ if(!class_exists('tvDropzoneInputRender')) {
 
 		public function process($value,array $params = array()) {
 			$this->modx->regClientCSS($this->modx->getOption('assets_url').'components/tvdropzone/css/mgr/tvdropzone.css');
+			$this->modx->regClientStartupScript($this->modx->getOption('assets_url').'components/tvdropzone/js/mgr/lib/dropzone.js');
 			$this->modx->regClientStartupScript($this->modx->getOption('assets_url').'components/tvdropzone/js/mgr/tvdropzone.js');
 			// Set assets path
 			$this->setPlaceholder('assets',$this->modx->getOption('assets_url').'components/tvdropzone/');
