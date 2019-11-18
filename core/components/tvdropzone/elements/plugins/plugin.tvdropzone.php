@@ -17,9 +17,10 @@ switch ($modx->event->name) {
     case 'OnTVOutputRenderPropertiesList':
         $modx->event->output($corePath.'elements/tv/properties/');
         break;
-    case 'OnDocFormPrerender':
-    case 'OnManagerPageBeforeRender':
+    case 'OnDocFormPrerender': 
+        $modx->regClientStartupScript($assetsUrl.'js/mgr/lib/dropzone.js');
         $modx->regClientStartupScript($assetsUrl.'js/mgr/tvdropzone.js');
+        $modx->regClientCSS($assetsUrl.'js/mgr/lib/dropzone.css');
         $modx->regClientCSS($assetsUrl.'css/mgr/tvdropzone.css');
         $modx->controller->addLexiconTopic('tvdropzone:default');
         break;
