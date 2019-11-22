@@ -1,4 +1,4 @@
 # tvDropzone
-TV custom field dropzone
+MODX TV custom field dropzone
 
 Used dropzone.js 

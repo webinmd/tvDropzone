@@ -20,4 +20,5 @@ if(!class_exists('tvDropzoneInputRender')) {
 
 	}
 }
+
 return 'tvDropzoneInputRender';
