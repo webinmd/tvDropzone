@@ -10,51 +10,56 @@
 
 class tvdropzoneBrowserFileUploadProcessor extends modBrowserFileUploadProcessor 
 {
- 
-    public function checkPermissions() 
-    {
 
+    public function initialize()
+    {
+        $this->setDefaultProperties(array(
+            'source' => 1,
+            'path' => false,
+        ));
+        $this->properties = $this->getProperties();
         return true;
-
-        $this->modx->log(1,'Source  --- ');
-        return $this->modx->hasPermission('file_upload');
     }
 
 
-    public function initialize() 
-    {
-        $this->setProperties(array("path" => '/uploads/'));
-        if (!$this->getSource()) {
-         return $this->modx->lexicon('permission_denied');
-        }
-        $this->source->setRequestProperties($this->getProperties());
-        $this->source->initialize();
-        if (!$this->source->checkPolicy('create')) {
-         return $this->modx->lexicon('permission_denied');
-        }
-        return parent::initialize();
-    }
 
-/*
     public function process() 
     {
-        return $this->success();
+
+        //$this->modx->log(1,'Line  --- '.print_r($_FILES, 1));
 
         if (!$this->getSource()) {
-            return $this->failure('Hello');
-            //return $this->failure($this->modx->lexicon('permission_denied'));
+            return $this->failure($this->modx->lexicon('permission_denied'));
         }
-         
-        //return $this->success(stripslashes($url));
+
+
+        if (count($_FILES) < 1) {
+            return $this->failure($this->modx->lexicon('mixedimage.err_file_ns'));
+        }
+
+
+        $TV = $this->modx->getObject('modTemplateVar',$this->getProperty('tvId'));
+
+        if (! $TV instanceof modTemplateVar) {
+            return $this->failure($this->modx->lexicon('mixedimage.error_tvid_invalid')."<br />\n[".$this->getProperty('tvId')."]");
+        }
+
+        $context_key = $this->formdata['context_key'];
+        $this->source = $TV->getSource($context_key);
+        $this->source->initialize();
+
+        if (!$this->source->checkPolicy('create')) {
+            return $this->failure($this->modx->lexicon('permission_denied'));
+        }
+
+        //$this->modx->log(1,'Line  --- '.print_r($this->getProperties(), 1));
+
+
+
+
     }
 
-    public function getLanguageTopics() 
-    {
-        $langs = parent::getLanguageTopics();
-        $langs[] = 'tvdropzone';
-        return $langs;
-    }
-    */
+
 
 
  
