@@ -3,8 +3,10 @@
 $_lang['tvDropzone'] = 'TV Dropzone';
 
 // Settings
-$_lang['setting_tvdropzone.translit'] = 'Транслитерация файлов';
-$_lang['setting_tvdropzone.translit_desc'] = 'При включенной настройке, имена всех загружаемых файлов будут написаны транслитом. Настройка работает только при установленном дополнении "translit"';
-$_lang['setting_tvdropzone.check_resid'] = 'Загружать только при редактировании';
-$_lang['setting_tvdropzone.check_resid_desc'] = 'Пока ресурс не будет сохранен, файл не получится загрузить. Рекомендуется оставить включенным эту настройку. Иначе могут возникнуть проблемы при использовании плейсхолдеров {alias} и {palias} - у несохранных ресурсов они будут возвращать пустые значения.';
-$_lang['setting_tvdropzone.random_lenght'] = 'Длина строки для плейсхолдера {rand}';
+$_lang['setting_tvdropzone.translit'] = 'Translit';
+$_lang['setting_tvdropzone.translit_desc'] = 'It is necessary to addition "translit"';
+$_lang['setting_tvdropzone.check_resid'] = 'Upload only when editing';
+$_lang['setting_tvdropzone.check_resid_desc'] = 'Recommended!';
+$_lang['setting_tvdropzone.preview_width_max'] = 'Max width of the thumbnail';
+$_lang['setting_tvdropzone.preview_height_max'] = 'Max height of the thumbnails';
+$_lang['setting_tvdropzone.random_lenght'] = 'The length of the placeholder {rand}';

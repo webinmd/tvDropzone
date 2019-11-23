@@ -26,8 +26,3 @@ tvdropzone.panel = function(config) {
     
     this.on('onFileUploadSuccess',this.onFileUploadSuccess,this);
 };
- 
-
-
-//////////////////////////////////////////////////////////
-  
