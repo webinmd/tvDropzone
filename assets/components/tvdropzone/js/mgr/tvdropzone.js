@@ -6,6 +6,8 @@ tvdropzone.panel = function(config) {
     if (!config.source) {config.source = MODx.config.default_media_source;}
     if (!config.ctx) {config.ctx = 'web';}
 
+    //console.log(config);
+
     Ext.apply(config,{
         border:false
         ,listeners: {}

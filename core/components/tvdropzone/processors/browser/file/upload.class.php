@@ -44,18 +44,49 @@ class tvdropzoneBrowserFileUploadProcessor extends modBrowserFileUploadProcessor
             return $this->failure($this->modx->lexicon('mixedimage.error_tvid_invalid')."<br />\n[".$this->getProperty('tvId')."]");
         }
 
+        /*
         $context_key = $this->formdata['context_key'];
         $this->source = $TV->getSource($context_key);
         $this->source->initialize();
+        */
 
-        if (!$this->source->checkPolicy('create')) {
+        $source = $this->modx->getObject('sources.modMediaSource', $this->getProperty('source'));
+        $source->initialize();
+
+        if (!$source->checkPolicy('create')) {
             return $this->failure($this->modx->lexicon('permission_denied'));
         }
 
-        //$this->modx->log(1,'Line  --- '.print_r($this->getProperties(), 1));
+        $path = '/';
 
+        $success = $source->uploadObjectsToContainer($path, $_FILES);
 
+        // Check for upload errors
+        if (empty($success)) {
+            $msg = '';
+            $errors = $source->getErrors();
+            // Remove 'directory already exists' error
+            if (isset($errors['name'])) {
+                unset($errors['name']);
+            }
+            if (count($errors) > 0) {
+                foreach ($errors as $k => $msg) {
+                    $this->modx->error->addField($k,$msg);
+                }
+                return $this->failure($msg);
+            }
+        }
 
+        $fName = array_shift($_FILES);
+        $url = $fName['name'];
+        $url = preg_replace('/\/{2,}/','/',$url);
+
+        //$this->modx->log(1,'Line  --- '.print_r($url, 1));
+
+        return $this->success(stripslashes($url));
+
+        //$context = $this->modx->resource->get('context_key');
+        //$this->modx->log(1,'Line  --- '.print_r(, 1));
 
     }
 
