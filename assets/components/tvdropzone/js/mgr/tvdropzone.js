@@ -28,3 +28,46 @@ tvdropzone.panel = function(config) {
     
     this.on('onFileUploadSuccess',this.onFileUploadSuccess,this);
 };
+
+Ext.extend(tvdropzone.panel,Ext.Container,{
+    getItems:function(config){
+        return [this.getImageContainer(config)];
+    }
+    ,getImageContainer:function(config){
+        return{
+            xtype:'container'
+            ,hidden: true
+            ,id: 'tvdropzone_media_container'+config.tvId
+            ,items: [{
+                xtype:'modx-combo-browser'
+                ,browserEl: 'modx-browser'
+                ,TV: this
+                ,id: 'tvdropzone_media'+config.tvId
+                ,source: config.source
+                ,ctx_path: config.ctx_path
+                ,openTo: config.openPath
+                ,listeners: {
+                    'select':{fn:this.onBrowserSelect,scope:this}
+                }
+            }]
+        };
+    }
+    ,onFileUploadSuccess:function(r){
+
+    }
+    ,setValue:function(value){
+        this.getInput().setValue(value);
+        this.getTVField().dom.value = value;
+        this.el.dom.value = value;
+        MODx.fireResourceFormChange();
+    }
+    ,getInput:function(){
+        this.input = this.input||Ext.getCmp('tvdropzone_input'+this.tvId);
+        return this.input;
+    }
+    ,getTVField:function(){
+        this.tvfield = this.tvfield||Ext.get('tv'+this.tvId);
+        return this.tvfield;
+    }
+});
+Ext.reg('tvdropzone-panel',tvdropzone.panel); 
