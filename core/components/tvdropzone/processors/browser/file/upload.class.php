@@ -44,12 +44,6 @@ class tvdropzoneBrowserFileUploadProcessor extends modBrowserFileUploadProcessor
             return $this->failure($this->modx->lexicon('mixedimage.error_tvid_invalid')."<br />\n[".$this->getProperty('tvId')."]");
         }
 
-        /*
-        $context_key = $this->formdata['context_key'];
-        $this->source = $TV->getSource($context_key);
-        $this->source->initialize();
-        */
-
         $source = $this->modx->getObject('sources.modMediaSource', $this->getProperty('source'));
         $source->initialize();
 
@@ -85,12 +79,7 @@ class tvdropzoneBrowserFileUploadProcessor extends modBrowserFileUploadProcessor
 
         return $this->success(stripslashes($url));
 
-        //$context = $this->modx->resource->get('context_key');
-        //$this->modx->log(1,'Line  --- '.print_r(, 1));
-
     }
-
-
 
 
  

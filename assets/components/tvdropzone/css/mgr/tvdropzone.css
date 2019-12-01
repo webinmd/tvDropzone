@@ -1,16 +1,75 @@
 .tv-dropzone{
     border: 2px dashed #ddd;
-    padding: 15px;
+    padding: 0 15px;
+}
+
+.tv-dropzone .dz-preview{
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 0;
+}
+
+.tv-dropzone .dz-preview + .dz-preview{
+    border-top: 1px solid #ddd;
 }
 
 .tv-dropzone .dz-preview .dz-image{
-    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.tv-dropzone .dz-image img{
+    width: 30px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.tv-dropzone .dz-details{
+    width: 85%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.tv-dropzone .dz-details .dz-size{
+    order: 2;
+    width: 50px;
+    font-size: 11px;
 }
 
 .tv-dropzone .dz-filename{
-    font-size: 10px;
+    font-size: 12px;
+    width: 100%;
+}
+.tv-dropzone .dz-success-mark{
+    display: none;
 }
 
-.tv-dropzone .dz-preview .dz-details .dz-size{
-    font-size: 13px;
+.tv-dropzone .dz-error-mark{
+    display: none;
+}
+
+.tv-dropzone .dz-remove{
+    font-size: 0;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    color: #666666;
+    display: inline-block;
+    margin-left: auto;
+}
+
+.tv-dropzone .dz-remove::after{
+    content: '×';
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
 }
