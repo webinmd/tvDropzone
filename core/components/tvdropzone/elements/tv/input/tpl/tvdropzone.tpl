@@ -7,6 +7,7 @@
     <div class="fallback">
         <input type="file" name="file" />
     </div>
+    <div class="dz-message" data-dz-message><span>{$empty_text}</span></div>
 </form> 
 
 <script>
@@ -15,6 +16,7 @@
     Ext.onReady(function()   {
 
         let connector_url = "{$assets}connector.php?HTTP_MODAUTH={$token}";
+        var valObject = '{$tv->value}' || '';
 
     	Dropzone.autoDiscover = false;
         var tvropzone{$tv->id} = new Dropzone("#tvdropzone{$tv->id}", {
@@ -22,97 +24,60 @@
             addRemoveLinks: true,
             init: function(){
 
-                var myDropzone = this;
-                var valObject = {$tv->value};
+                if (valObject != '') {
 
-                console.log(Object.keys(valObject).length);
+                    var myDropzone = this;
+                    var files = JSON.parse(valObject);
 
-                for (var i = 0, len = Object.keys(valObject).length; i < len; i++) {
-                    console.log(valObject[i]);
-
-                    var mockFile = { name: valObject[i] };
-
-                    myDropzone.emit("addedfile", mockFile);
-                    myDropzone.emit("thumbnail", mockFile, '/uploads/'+valObject[i]);
-                    myDropzone.emit("complete", mockFile);
+                    for (var i = 0, len = Object.keys(files).length; i < len; i++) {
+                        var mockFile = { name: files[i].name, size: files[i].size };
+                        myDropzone.emit("addedfile", mockFile);
+                        myDropzone.emit("thumbnail", mockFile, '/uploads/'+files[i].name);
+                        myDropzone.emit("complete", mockFile);
+                    }
 
                 }
 
+            },
+            removedfile: function(file) {
+                var name = file.name;
+                console.log(name);
 
-
-
-                /*
-
-                Object.keys(valObject).map(function(value, key) {
-                    console.log(value, key);
-                });
-                */
-
-                /*
-
-                myDropzone = this;
-                var data = { 'action': 'getfiles'};
-
-                var params = Object.keys(data).map(
-                    function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
-                ).join('&');
-
-                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-                xhr.open('POST', connector_url);
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
-                };
-
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.send(params);
-                */
-
-                /*
-                $.ajax({
+                Ext.Ajax.request ({
                     url: connector_url,
-                    type: 'post',
-                    data: { 'action': 'getfiles'},
-                    dataType: 'json',
-                    success: function(response){
-
-                        console.log(response);
-
-                        $.each(response, function(key,value) {
-                            var mockFile = { name: value.name, size: value.size };
-
-                            myDropzone.emit("addedfile", mockFile);
-                            myDropzone.emit("thumbnail", mockFile, value.path);
-                            myDropzone.emit("complete", mockFile);
-
-                        });
-
-                            }
-                        });
-                */
-
+                    params: {
+                        action: 'removefile',
+                        file: name,
+                        source: {$tv->source},
+                    },
+                    success: function(response) {
+                        file.previewElement.remove();
+                    }
+                });
             }
         });
 
+
         tvropzone{$tv->id}.on("queuecomplete", function(file, res) {
-            let count = Object.keys({$tv->value}).length;
-            let val = {$tv->value} || {};
+
+            if(valObject != '') {
+                var count = Object.keys({$tv->value}).length;
+                var val = JSON.parse(JSON.stringify({$tv->value}));
+            } else {
+                var count = 0;
+                var val = {};
+            }
+
             for (let i = 0; i < tvropzone{$tv->id}.files.length; ++i) {
-                val[count++] = tvropzone{$tv->id}.files[i].upload.filename;
+                val[count++] = {
+                    name: tvropzone{$tv->id}.files[i].upload.filename,
+                    size: tvropzone{$tv->id}.files[i].size,
+                    type: tvropzone{$tv->id}.files[i].type
+                }
             }
             document.getElementById('tv{$tv->id}').value = JSON.stringify(val);
         });
 
-
-
-        /*
-    	tvdropzone{$tv->id} = MODx.load({
-            xtype: 'tvdropzone-panel'
-            source: {$tv->source}
-            ,tvId: {$tv->id}
-        });
-        */
 
  	});
   

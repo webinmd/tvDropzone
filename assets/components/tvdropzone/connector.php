@@ -7,10 +7,10 @@ $corePath = $modx->getOption('core_path').'components/tvdropzone/';
  
 $modx->lexicon->load('tvdropzone:default');
  
-// Load the upload processor class for extension
+// Load processor class for extension
 require_once $modx->getOption('core_path').'model/modx/modprocessor.class.php';
 require_once $modx->getOption('core_path').'model/modx/processors/browser/file/upload.class.php';
-require_once $modx->getOption('core_path').'model/modx/processors/browser/file/get.class.php';
+require_once $modx->getOption('core_path').'model/modx/processors/browser/file/remove.class.php';
 
 //$modx->log(1,'Line  --- '.print_r($_REQUEST, 1));
 

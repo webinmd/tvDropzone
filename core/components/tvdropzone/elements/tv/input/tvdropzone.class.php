@@ -14,8 +14,10 @@ if (!class_exists('tvDropzoneInputRender')) {
 
 			$this->setPlaceholder('assets',$this->modx->getOption('assets_url').'components/tvdropzone/');
             $this->setPlaceholder('token', $this->modx->user->getUserToken($this->modx->context->get('key')));
-			//$this->modx->lexicon->load('tvdropzone');
- 
+
+            $this->modx->lexicon->load('tvdropzone');
+            $this->setPlaceholder('empty_text', $this->modx->lexicon('tvdropzone.empty_text'));
+
 		}
 
 

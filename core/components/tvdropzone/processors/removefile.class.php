@@ -1,23 +1,17 @@
 <?php
 
 
-class tvdropzoneBrowserFileGetProcessor extends modBrowserFileGetProcessor
+class tvdropzoneBrowserFileRemoveProcessor extends modBrowserFileRemoveProcessor
 {
 
 
-    public function process()
+    public function process11()
     {
 
         /* format filename */
-        $loaded = $this->getSource();
-        if ($loaded !== true) {
-            return $loaded;
-        }
-
-        $fileArray = $this->source->getObjectContents('uploads/');
 
 
-        $this->modx->log(1,'Line  --- '.print_r($fileArray, 1));
+        //$this->modx->log(1,'Line  --- '.print_r($fileArray, 1));
         /*
         if (empty($fileArray)) {
             $msg = '';
@@ -38,4 +32,4 @@ class tvdropzoneBrowserFileGetProcessor extends modBrowserFileGetProcessor
 
 }
 
-return 'tvdropzoneBrowserFileGetProcessor';
+return 'tvdropzoneBrowserFileRemoveProcessor';

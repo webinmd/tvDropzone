@@ -1,4 +1,5 @@
 tvdropzone = {};
+/*
 
 tvdropzone.panel = function(config) {
     config = config || {};
@@ -70,4 +71,5 @@ Ext.extend(tvdropzone.panel,Ext.Container,{
         return this.tvfield;
     }
 });
-Ext.reg('tvdropzone-panel',tvdropzone.panel); 
+Ext.reg('tvdropzone-panel',tvdropzone.panel);
+*/
