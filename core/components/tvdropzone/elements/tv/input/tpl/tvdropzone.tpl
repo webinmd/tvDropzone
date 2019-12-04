@@ -7,7 +7,6 @@
     <div class="fallback">
         <input type="file" name="file" />
     </div>
-    <div class="dz-message" data-dz-message><span>{$empty_text}</span></div>
 </form> 
 
 <script>
@@ -40,8 +39,8 @@
 
             },
             removedfile: function(file) {
+
                 var name = file.name;
-                console.log(name);
 
                 Ext.Ajax.request ({
                     url: connector_url,
@@ -51,9 +50,24 @@
                         source: {$tv->source},
                     },
                     success: function(response) {
+
+                        var files = JSON.parse(valObject);
+                        var res = {};
+
+                        for (let i = 0; i < Object.keys(files).length; ++i) {
+                            if( files[i].name != file.name ) {
+                                res[i] = {
+                                    name: files[i].name,
+                                    size: files[i].size,
+                                    type: files[i].type
+                                }
+                            }
+                        }
                         file.previewElement.remove();
+                        document.getElementById('tv{$tv->id}').value = JSON.stringify(res);
                     }
-                });
+                }); 
+
             }
         });
 
