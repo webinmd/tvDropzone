@@ -18,6 +18,24 @@ if (!class_exists('tvDropzoneInputRender')) {
             $this->modx->lexicon->load('tvdropzone');
             $this->setPlaceholder('empty_text', $this->modx->lexicon('tvdropzone.empty_text'));
 
+            $context = ($this->modx->resource->get('context_key')) ? $this->modx->resource->get('context_key') : 'web';
+
+            $this->source = $this->tv->getSource($context);
+            $source_properties = $this->source->getPropertyList();
+
+            if(($source_properties['basePath'] != '')){
+                $basePath = $source_properties['basePath'];
+            }  else {
+                $basePath = '';
+            }
+
+            $this->setPlaceholder('basePath', $basePath);
+
+            //$source = $this->tv->source;
+            //$source_properties = $source->getPropertyList();
+
+            //$this->modx->log(1,'Line  --- '.print_r($source_properties, 1));
+
 		}
 
 
