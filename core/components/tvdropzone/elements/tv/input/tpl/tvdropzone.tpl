@@ -7,6 +7,7 @@
     <div class="fallback">
         <input type="file" name="file" />
     </div>
+    <div class="dz-message" data-dz-message><span>{$empty_text}</span></div>
 </form> 
 
 <script>
@@ -17,21 +18,28 @@
         let connector_url = "{$assets}connector.php?HTTP_MODAUTH={$token}";
         var valObject = '{$tv->value}' || '';
 
+        if (valObject != '') {
+            var files = JSON.parse(valObject);
+            var count = Object.keys(files).length;
+        } else{
+            var count = 0;
+        }
+
+
     	Dropzone.autoDiscover = false;
         var tvropzone{$tv->id} = new Dropzone("#tvdropzone{$tv->id}", {
             url: connector_url,
             addRemoveLinks: true,
             init: function(){
 
-                if (valObject != '') {
+                if (count > 0) {
 
                     var myDropzone = this;
-                    var files = JSON.parse(valObject);
 
-                    for (var i = 0, len = Object.keys(files).length; i < len; i++) {
+                    for (var i = 0, len = count; i < len; i++) {
                         var mockFile = { name: files[i].name, size: files[i].size };
                         myDropzone.emit("addedfile", mockFile);
-                        myDropzone.emit("thumbnail", mockFile, '/uploads/'+files[i].name);
+                        myDropzone.emit("thumbnail", mockFile, '/{$basePath}'+files[i].name);
                         myDropzone.emit("complete", mockFile);
                     }
 
@@ -51,22 +59,43 @@
                     },
                     success: function(response) {
 
+                        //console.log(valObject);
+
                         var files = JSON.parse(valObject);
                         var res = {};
+                        var j = 0;
 
                         for (let i = 0; i < Object.keys(files).length; ++i) {
                             if( files[i].name != file.name ) {
-                                res[i] = {
+                                res[j++] = {
                                     name: files[i].name,
                                     size: files[i].size,
                                     type: files[i].type
                                 }
                             }
                         }
+
+                        if(Object.keys(res).length > 0) {
+                            document.getElementById('tv{$tv->id}').value = JSON.stringify(res);
+                        } else {
+                            document.getElementById('tv{$tv->id}').value = '';
+                        }
+
+
                         file.previewElement.remove();
-                        document.getElementById('tv{$tv->id}').value = JSON.stringify(res);
+
+                        var currentCount = document.querySelectorAll('#tvdropzone{$tv->id} .dz-preview').length;
+                        var $elem = document.getElementById("tvdropzone{$tv->id}").getElementsByClassName("dz-message")[0];
+
+                        if(currentCount>0) {
+                            $elem.style.display = "none";
+                        } else {
+                            $elem.style.display = "block";
+                        }
+
+                        MODx.fireResourceFormChange();
                     }
-                }); 
+                });
 
             }
         });
@@ -74,11 +103,9 @@
 
         tvropzone{$tv->id}.on("queuecomplete", function(file, res) {
 
-            if(valObject != '') {
-                var count = Object.keys({$tv->value}).length;
+            if(count>0) {
                 var val = JSON.parse(JSON.stringify({$tv->value}));
             } else {
-                var count = 0;
                 var val = {};
             }
 
@@ -90,6 +117,7 @@
                 }
             }
             document.getElementById('tv{$tv->id}').value = JSON.stringify(val);
+            MODx.fireResourceFormChange();
         });
 
 
